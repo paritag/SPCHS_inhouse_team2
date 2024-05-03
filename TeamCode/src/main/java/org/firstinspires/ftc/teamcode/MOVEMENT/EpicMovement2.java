@@ -58,9 +58,9 @@ public class EpicMovement2 extends OpMode{
     public DcMotor  rightDrive  = null;
     public DcMotor  leftArm     = null;
     public Servo    leftClaw    = null;
-    public Servo    rightClaw   = null;
+    //public Servo    rightClaw   = null;
 
-    double clawOffset = 0;
+    //double clawOffset = 0;
 
     public static final double MID_SERVO   =  0.5 ;
     public static final double CLAW_SPEED  = 0.02 ;        // sets rate to move servo
@@ -88,10 +88,8 @@ public class EpicMovement2 extends OpMode{
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        leftClaw  = hardwareMap.get(Servo.class, "left_hand");
-        rightClaw = hardwareMap.get(Servo.class, "right_hand");
+        leftClaw = hardwareMap.get(Servo.class, "Knockeroverer");
         leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(">", "Robot Ready.  Press Play.");    //
@@ -127,26 +125,29 @@ public class EpicMovement2 extends OpMode{
         rightDrive.setPower(right);
 
         // Use gamepad left & right Bumpers to open and close the claw
-        if (gamepad1.right_bumper)
-            clawOffset += CLAW_SPEED;
+        if (gamepad1.right_bumper) {
+            //clawOffset += CLAW_SPEED;
+            leftClaw.setPosition(MID_SERVO);
+            leftClaw.setPosition(1);
+        }
         else if (gamepad1.left_bumper)
-            clawOffset -= CLAW_SPEED;
+            //clawOffset -= CLAW_SPEED;
 
         // Move both servos to new position.  Assume servos are mirror image of each other.
-        clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-        leftClaw.setPosition(MID_SERVO + clawOffset);
-        rightClaw.setPosition(MID_SERVO - clawOffset);
+        //clawOffset = Range.clip(clawOffset, -0.5, 0.5);
+        //rightClaw.setPosition(MID_SERVO - clawOffset);
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
+        /*
         if (gamepad1.y)
             leftArm.setPower(ARM_UP_POWER);
         else if (gamepad1.a)
             leftArm.setPower(ARM_DOWN_POWER);
         else
             leftArm.setPower(0.0);
-
+        */
         // Send telemetry message to signify robot running;
-        telemetry.addData("claw",  "Offset = %.2f", clawOffset);
+        //telemetry.addData("claw",  "Offset = %.2f", clawOffset);
         telemetry.addData("left",  "%.2f", left);
         telemetry.addData("right", "%.2f", right);
     }
